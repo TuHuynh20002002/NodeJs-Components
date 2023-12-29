@@ -7,10 +7,10 @@ function sleep(ms) {
 }
 
 exports.getUsers = (req, res, next) => {
-  User.fetchAll()
-    .then(([rows, fieldData]) => {
+  User.find()
+    .then((users) => {
       res.render("user/index", {
-        users: rows,
+        users: users,
         pageTitle: "Users",
         path: "/users",
       });
@@ -21,10 +21,10 @@ exports.getUsers = (req, res, next) => {
 exports.getUser = (req, res, next) => {
   const userId = req.params.userId;
   User.findById(userId)
-    .then(([user]) => {
+    .then((user) => {
       res.render("user/detail", {
-        user: user[0],
-        pageTitle: user[0].username,
+        user: user,
+        pageTitle: "User Detail",
         path: "/users/:userId",
       });
     })
@@ -39,9 +39,8 @@ exports.getAddUser = (req, res, next) => {
 };
 
 exports.postAddUser = (req, res, next) => {
-  const username = req.body.username;
-  const email = req.body.email;
-  const user = new User(null, username, email);
+  const formData = req.body;
+  const user = new User(formData);
   user
     .save()
     .then(() => {
@@ -53,14 +52,14 @@ exports.postAddUser = (req, res, next) => {
 exports.getEditUser = (req, res, next) => {
   const userId = req.params.userId;
   User.findById(userId)
-    .then(([user]) => {
+    .then((user) => {
       if (!user) {
         return res.redirect("/users");
       }
       res.render("user/edit", {
         pageTitle: "Edit User",
         path: "/users/:userId",
-        user: user[0],
+        user: user,
       });
     })
     .catch((err) => console.log(err));
@@ -70,15 +69,23 @@ exports.postEditUser = async (req, res, next) => {
   const userId = req.params.userId;
   const updatedUsername = req.body.username;
   const updatedEmail = req.body.email;
-  User.updateById(userId, updatedUsername, updatedEmail);
-  // wating for update before redirect
-  await sleep(1000);
-  res.redirect("/users");
+  try {
+    await User.findByIdAndUpdate(
+      { _id: userId },
+      {
+        username: updatedUsername,
+        email: updatedEmail,
+      }
+    );
+    res.redirect("/users");
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.postDeleteUser = (req, res, next) => {
   const userId = req.params.userId;
-  User.deleteById(userId)
+  User.findByIdAndDelete(userId)
     .then(() => {
       res.redirect("/users");
     })

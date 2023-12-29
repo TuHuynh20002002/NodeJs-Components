@@ -1,0 +1,28 @@
+<a href="/users/add" class="btn btn-success">Add user </a>
+<br><br>    
+<table class="table table-primary table-striped table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(user => { %>
+        <tr>
+          <th scope="row"><%= user.id %></th>
+          <td><%= user.username %></td>
+          <td><%= user.email %></td>
+          <td style="display: flex; justify-content: space-evenly;">
+            <a href="/users/<%= user.id %>/detail" class="btn btn-primary">View</a>
+            <a href="/users/<%= user.id %>/edit" class="btn btn-warning">Edit</a>
+            <form method="POST" action="/users/<%= user.id %>/delete" id="form">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
