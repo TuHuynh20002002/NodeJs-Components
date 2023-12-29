@@ -1,0 +1,13 @@
+<div class="card" style="width: 18rem;">
+    <img src="/img/nodejs.png" class="card-img-top" alt="...">
+    <div class="card-body bg-dark text-light">
+        <h5 class="card-title"><%= user.username %></h5>
+        <p class="card-text">Email: <%= user.email %></p>
+        <div style="display: flex; justify-content: space-evenly;">
+            <a href="/users/<%= user.id %>/edit" class="btn btn-warning">Edit</a>
+            <form method="POST" action="/users/<%= user.id %>/delete" id="form">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
