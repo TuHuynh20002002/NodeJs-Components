@@ -1,1 +1,1 @@
-# NodeJS SQL database
+# NodeJS NoSQL database

@@ -10,7 +10,6 @@ const expressLayouts = require("express-ejs-layouts"); // Template engine
 // variables declaration
 const app = express();
 const route = require("./routes/app.route");
-const errorController = require("./controllers/error.controller");
 const port = 3000;
 
 // HTTP logger
@@ -27,7 +26,6 @@ app.set("views", path.join(__dirname, "views"));
 
 //route
 route(app);
-app.use(errorController.get404);
 
 // run server
 app.listen(port, () => {
