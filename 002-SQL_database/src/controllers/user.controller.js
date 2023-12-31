@@ -1,11 +1,5 @@
 const User = require("../models/user");
 
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 exports.getUsers = (req, res, next) => {
   User.fetchAll()
     .then(([rows, fieldData]) => {
@@ -70,10 +64,12 @@ exports.postEditUser = async (req, res, next) => {
   const userId = req.params.userId;
   const updatedUsername = req.body.username;
   const updatedEmail = req.body.email;
-  User.updateById(userId, updatedUsername, updatedEmail);
-  // wating for update before redirect
-  await sleep(1000);
-  res.redirect("/users");
+  try {
+    await User.updateById(userId, updatedUsername, updatedEmail);
+    res.redirect("/users");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.postDeleteUser = (req, res, next) => {

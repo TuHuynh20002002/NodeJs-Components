@@ -1,11 +1,5 @@
 const User = require("../models/user");
 
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 exports.getUsers = (req, res, next) => {
   User.find()
     .then((users) => {

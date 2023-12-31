@@ -14,6 +14,7 @@ router.get("/", AppController.home);
 function route(app) {
   app.use("/users", userRouter);
   app.use("/", router);
+  app.use(errorController.get404);
 }
 
 module.exports = route;

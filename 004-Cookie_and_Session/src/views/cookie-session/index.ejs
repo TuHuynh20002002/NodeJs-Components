@@ -1,0 +1,11 @@
+<% if (!isSession) { %>
+    <h1>Session is not available</h1>
+    <form method="POST" action="/cookie-session/create">
+        <button type="submit" class="btn btn-primary">Create Session</button>
+    </form>
+<% } else { %>
+    <h1>Session is available</h1>
+    <form method="POST" action="/cookie-session/destroy">
+        <button type="summit" class="btn btn-primary">Destroy Session</button>
+    </form>
+<% } %>
